@@ -1,0 +1,77 @@
+const { DataTypes } = require("sequelize");
+const sequelize = require("../db.connection.js");
+
+const ORDER_SCHEMA = sequelize.define("Order", {
+    order_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique:true,
+    },
+    first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    last_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    contact_phone_number: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    contact_email_address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    apt_details: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    city: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    state: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    postal_code: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    country: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    delivery_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    order_total_price: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    order_status:{
+        type: DataTypes.STRING, 
+        allowNull: false
+    },
+    payment_status:{
+        type: DataTypes.STRING, 
+        allowNull: false
+    }
+});
+
+ORDER_SCHEMA.prototype.toJSON = function () {
+    const values = Object.assign({}, this.get());
+
+    delete values.createdAt;
+    delete values.updatedAt;
+    return values
+}
+
+
+module.exports = ORDER_SCHEMA;
