@@ -45,6 +45,7 @@ USER_SCHEMA.prototype.toJSON = function (){
     const values = Object.assign({}, this.get());
   
     delete values.password;
+    delete values.id;
     delete values.createdAt;
     delete values.updatedAt;
     return values

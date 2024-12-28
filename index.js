@@ -20,7 +20,6 @@ app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 app.use(routes);
 app.use(errorHandler);
 
-require("./src/models");
 
 app.listen(process.env.PORT || 5000, ()=>{
     process.env.NODE_ENV === "development" && console.log(`Server running on port ${process.env.PORT || 5000}`)
