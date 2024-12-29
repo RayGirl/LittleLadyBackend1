@@ -162,10 +162,64 @@ const DELETE_USER = ExpressAsyncHandler(async (req, res) => {
     res.status(200).json({ success: true })
 })
 
+const CHANGE_PASSWORD = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['User']
+          #swagger.description = 'Change Password.' */
+  
+    /*	#swagger.parameters['obj'] = 
+     
+              {
+              in: 'body',
+              description: 'Change Password.',
+              required: true,
+              schema: { 
+                      old_password: "string",
+                      new_password: "string",
+               }}
+       */
+  
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+    const { user_uuid } = req.params;
+    const { new_password, old_password } = req.body;
+  
+    if (!new_password || !old_password || !user_uuid) {
+      res.status(400).json({
+        success: false,
+        message: "All fields are mandatory.",
+      });
+      return;
+    }
+  
+    const user = await DB.USER.findOne({where:{uuid:user_uuid}});
+  
+    if (!user) {
+      throw new ErrorResponse(404, "Invalid user")
+    }
+  
+    const old_password_match = await bcryptjs.compare(old_password, user.password);
+  
+    if (!old_password_match) {
+      throw new ErrorResponse(400, "old password is incorrect")
+    }
+  
+    const hashed_password = await bcryptjs.hash(new_password, 10);
+  
+    
+    await user.update({
+        password: hashed_password,
+    });
+
+    res.status(200).json({ success: true, message: "Password changed." });
+    
+  });
+
 module.exports = {
     CREATE_USER,
     GET_ONE_USER,
     GET_USERS,
     UPDATE_USER,
     DELETE_USER,
+    CHANGE_PASSWORD,
 }

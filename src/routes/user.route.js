@@ -7,5 +7,6 @@ router.get("/user", USER_CONTROLLER.GET_USERS);
 router.get("/user/:user_uuid", USER_CONTROLLER.GET_ONE_USER);
 router.patch("/user/:user_uuid", USER_CONTROLLER.UPDATE_USER);
 router.delete("/user/:user_uuid", USER_CONTROLLER.DELETE_USER);
+router.patch("/user/:user_uuid/change-password", USER_CONTROLLER.CHANGE_PASSWORD);
 
 module.exports = router;

@@ -22,6 +22,7 @@ const outputFile = "./swagger-output.json";
 
 const routes = [
     "./src/routes/user.route",
+    "./src/routes/role.route",
 ]
 
 swaggerAutogen(outputFile, routes, doc);
