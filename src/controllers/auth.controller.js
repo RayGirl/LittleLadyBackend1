@@ -80,7 +80,7 @@ const NATIVE_LOGIN = ExpressAsyncHandler(async (req, res) => {
         return;
     }
 
-})
+});
 
 const GOOGLE_LOGIN = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Authentication']
@@ -158,9 +158,11 @@ const GOOGLE_LOGIN = ExpressAsyncHandler(async (req, res) => {
             }
             MAILER.send(mail_options)
         } else {
-            await account_with_email_exist.update({
-                email_verified: true
-            })
+            if (!account_with_email_exist.email_verified) {
+                await account_with_email_exist.update({
+                  email_verified: true
+                })
+              }
             await DB.SOCIAL_LOGIN.create({
                 provider_name: "google",
                 provider_id: google_user_info.data.id,
@@ -168,7 +170,6 @@ const GOOGLE_LOGIN = ExpressAsyncHandler(async (req, res) => {
             });
         }
     }
-
 
     let social_user;
 
@@ -206,7 +207,7 @@ const GOOGLE_LOGIN = ExpressAsyncHandler(async (req, res) => {
     });
 
 
-})
+});
 
 const SEND_VERIRICATION_EMAIL = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Authentication']

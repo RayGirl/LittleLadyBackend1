@@ -7,5 +7,6 @@ const api_prefix = "/api"
 router.use(api_prefix, require("./role.route"));
 router.use(api_prefix, require("./user.route"));
 router.use(api_prefix, require("./auth.route"));
+router.use(api_prefix, require("./item.route"));
 
 module.exports = router;

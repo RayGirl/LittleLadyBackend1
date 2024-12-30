@@ -24,6 +24,7 @@ const routes = [
     "./src/routes/role.route",
     "./src/routes/user.route",
     "./src/routes/auth.route",
+    "./src/routes/item.route",
 ]
 
 swaggerAutogen(outputFile, routes, doc);
