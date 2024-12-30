@@ -7,6 +7,7 @@ const USER_SCHEMA = require("./schemas/user.schema");
 const USER_ADDRESS_SCHEMA = require("./schemas/user_address.schema");
 const CART_ITEM_SCHEMA = require("./schemas/cart_item.schema");
 const ORDER_SCHEMA = require("./schemas/order.schema");
+const SOCIAL_LOGIN_SCHEMA = require("./schemas/social_login.schema");
 
 // User Relationship
 USER_SCHEMA.belongsTo(ROLE_SCHEMA, {foreignKey: {name: "role_id"}, onDelete:"NO ACTION"})
@@ -35,3 +36,5 @@ CART_ITEM_SCHEMA.belongsTo(ORDER_SCHEMA, {foreignKey:{name:"order_id"}, onDelete
 // Order Relationship
 ORDER_SCHEMA.hasMany(CART_ITEM_SCHEMA);
 ORDER_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"NO ACTION"});
+
+SOCIAL_LOGIN_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"});

@@ -13,6 +13,7 @@ DB.ITEM_IMAGE = require("./schemas/item_image.schema");
 DB.ORDER = require("./schemas/order.schema");
 DB.SHIPPING_METHOD = require("./schemas/shipping_method.schema");
 DB.STORE = require("./schemas/store.schema");
+DB.SOCIAL_LOGIN = require("./schemas/social_login.schema");
 
 // DB RELATIONSHIPS/ASSOCIATIONS
 require("./db.associations");

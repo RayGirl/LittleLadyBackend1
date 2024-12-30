@@ -50,7 +50,8 @@ const CREATE_USER = ExpressAsyncHandler(async (req, res) => {
     const user = await DB.USER.create({
         username,
         email_address,
-        password: hashed_password
+        password: hashed_password,
+        role_id
     });
 
     res.status(201).json({
