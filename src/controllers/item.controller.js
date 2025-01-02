@@ -25,15 +25,15 @@ const ADD_ITEM = ExpressAsyncHandler(async (req, res) => {
               "apiKeyAuth": []
       }] */
 
-    const { user_uuid } = req.user;
+    const user_id = req.user.id;
     const { title, description, price, in_stock, total_in_stock, pick_up_available, ready_in } = req.body;
 
-    if (!title || !description || !price || !in_stock || !total_in_stock || !pick_up_available || !ready_in) {
+    if (!title || !description || !price || !in_stock || !total_in_stock || !pick_up_available || !ready_in || !user_id) {
         throw new ErrorResponse(400, "All fields are mandatory")
     }
 
     await DB.ITEM.create({
-        title, description, price, in_stock, total_in_stock, pick_up_available, ready_in
+        title, description, price, in_stock, total_in_stock, pick_up_available, ready_in, user_id
     });
 
     res.status(201).json({
@@ -123,7 +123,7 @@ const UPDATE_ITEM = ExpressAsyncHandler(async (req, res) => {
         throw new ErrorResponse(404, "Item not found.");
     }
 
-    const update_response = await item.update(req.body);
+    await item.update(req.body);
 
     res.status(200).json({
         success: true,

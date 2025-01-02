@@ -56,6 +56,7 @@ const NATIVE_LOGIN = ExpressAsyncHandler(async (req, res) => {
         const access_token = jwt.sign(
             {
                 user: {
+                    id: user.id,
                     user_uuid: user.uuid,
                     role_id: user.role_id,
                 },
@@ -189,6 +190,7 @@ const GOOGLE_LOGIN = ExpressAsyncHandler(async (req, res) => {
     const access_token = jwt.sign(
         {
             user: {
+                id: user.id,
                 user_uuid: social_user.uuid,
                 role_id: social_user.role_id,
             },

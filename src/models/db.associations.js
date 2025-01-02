@@ -11,31 +11,31 @@ const SOCIAL_LOGIN_SCHEMA = require("./schemas/social_login.schema");
 
 // User Relationship
 USER_SCHEMA.belongsTo(ROLE_SCHEMA, {foreignKey: {name: "role_id"}, onDelete:"NO ACTION"})
-USER_SCHEMA.hasOne(USER_ADDRESS_SCHEMA);
-USER_SCHEMA.hasMany(ITEM_SCHEMA);
-USER_SCHEMA.hasMany(ORDER_SCHEMA);
+USER_SCHEMA.hasOne(USER_ADDRESS_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"});
+USER_SCHEMA.hasMany(ITEM_SCHEMA, {foreignKey: {name:"user_id", allowNull:true}, onDelete:"SET NULL"});
+USER_SCHEMA.hasMany(ORDER_SCHEMA, {foreignKey:{name:"user_id", allowNull:true}, onDelete:"SET NULL"});
+USER_SCHEMA.hasMany(CART_ITEM_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"});
 
 // User Address Relationship
 USER_ADDRESS_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"})
-USER_SCHEMA.hasMany(CART_ITEM_SCHEMA);
 
 // Item Relationship
-ITEM_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey: {name:"user_uuid", allowNull:true}, targetKey:"uuid", onDelete:"SET NULL"});
+ITEM_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey: {name:"user_id", allowNull:true}, onDelete:"SET NULL"});
 ITEM_SCHEMA.belongsTo(ITEM_CATEGORY_SCHEMA, {foreignKey:{name:"category_id", allowNull:true}, onDelete:"SET NULL"});
 ITEM_SCHEMA.belongsTo(STORE_SCHEMA, {foreignKey:{name:"store_id", allowNull:true}, onDelete: "SET NULL"});
-ITEM_SCHEMA.hasMany(ITEM_IMAGE_SCHEMA)
+ITEM_SCHEMA.hasMany(ITEM_IMAGE_SCHEMA, {foreignKey:{name:"item_id"}, onDelete:"CASCADE"})
 
 // Item Image Relationship
 ITEM_IMAGE_SCHEMA.belongsTo(ITEM_SCHEMA, {foreignKey:{name:"item_id"}, onDelete:"CASCADE"});
 
 // Cart Relationship
-CART_ITEM_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_uuid"}, targetKey:"uuid", onDelete:"CASCADE"});
+CART_ITEM_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"});
 CART_ITEM_SCHEMA.belongsTo(ITEM_SCHEMA, {foreignKey:{name:"item_id"}, onDelete:"CASCADE"});
 CART_ITEM_SCHEMA.belongsTo(ORDER_SCHEMA, {foreignKey:{name:"order_id"}, onDelete:"SET NULL"});
 
 // Order Relationship
-ORDER_SCHEMA.hasMany(CART_ITEM_SCHEMA);
-ORDER_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_uuid", allowNull:true}, targetKey:"uuid", onDelete:"SET NULL"});
+ORDER_SCHEMA.hasMany(CART_ITEM_SCHEMA, {foreignKey:{name:"order_id"}, onDelete:"SET NULL"});
+ORDER_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id", allowNull:true}, onDelete:"SET NULL"});
 
 // Social login relationship
 SOCIAL_LOGIN_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"});
