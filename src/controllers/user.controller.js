@@ -79,10 +79,6 @@ const GET_ONE_USER = ExpressAsyncHandler(async (req, res) => {
 
     const user = await DB.USER.findOne({
         where: { uuid: user_uuid },
-        include: [
-            { model: DB.USER_ADDRESS },
-            { model: DB.ROLE, attributes: ["name"] },
-        ]
     });
 
     if (!user) throw new ErrorResponse(404, "User not found");
@@ -216,6 +212,109 @@ const CHANGE_PASSWORD = ExpressAsyncHandler(async (req, res) => {
     
   });
 
+const ADD_USER_ADDRESS = ExpressAsyncHandler(async (req, res)=>{
+    /* 	#swagger.tags = ['User']
+          #swagger.description = 'Add user address.' */
+  
+    /*	#swagger.parameters['obj'] = 
+              {
+              in: 'body',
+              description: 'Add user address.',
+              required: true,
+              schema: { 
+                      apt_details: "string",
+                      address: "string",
+                      city: "string",
+                      state: "string",
+                      postal_code: "string",
+                      country: "string",
+               }}
+       */
+  
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const {user_id} = req.params;
+    const {apt_details, address, city, state, postal_code, country} = req.body;
+
+    if(!apt_details || !address || !city || !state || !postal_code || !country || !user_id){
+        throw new ErrorResponse(400, "All fields are mandatory");
+    }
+
+    await DB.USER_ADDRESS.create({
+        apt_details, address, city, state, postal_code, country, user_id
+    })
+
+    res.status(201).json({success: true, message:"Address added successfully"})
+
+})
+
+const GET_USER_ADDRESS = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['User']
+        #swagger.description = 'Get user address' */
+
+    /*	#swagger.parameters['obj'] = {
+              in: 'path',
+              description: 'The User ID.',
+              required: true,
+              name: 'user_id'
+      } */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const { user_id } = req.params;
+
+    const user_address = await DB.USER_ADDRESS.findOne({
+        where: { user_id },
+    });
+
+    if (!user_address) throw new ErrorResponse(404, "User Address not found");
+
+    res.status(200).json({ success: true, data: { user_address } });
+});
+
+const UPDATE_USER_ADDRESS = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['User']
+        #swagger.description = 'Update user Address' */
+
+    /*	#swagger.parameters['obj'] = 
+              {
+              in: 'body',
+              description: 'User Address.',
+              required: true,
+              schema: { 
+                      apt_details: "string",
+                      address: "string",
+                      city: "string",
+                      state: "string",
+                      postal_code: "string",
+                      country: "string"
+               }}
+      } */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const { user_id } = req.params;
+
+    const user_address = await DB.USER_ADDRESS.findOne({
+        where: { user_id },
+    });
+
+    if (!user_address) {
+        throw new ErrorResponse(404, "Unable to update address");
+    }
+
+    await user_address.update(req.body);
+
+    res.status(200).json({ success: true, message:"Address updated" });
+
+});
+
 module.exports = {
     CREATE_USER,
     GET_ONE_USER,
@@ -223,4 +322,7 @@ module.exports = {
     UPDATE_USER,
     DELETE_USER,
     CHANGE_PASSWORD,
+    ADD_USER_ADDRESS,
+    GET_USER_ADDRESS,
+    UPDATE_USER_ADDRESS,
 }
