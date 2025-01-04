@@ -8,6 +8,8 @@ const doc = {
     },
     host: 'localhost:5000',
     basePath: "/api",
+    consumes: ["application/json", "multipart/form-data"],
+    produces: ["application/json", "multipart/form-data"],
     securityDefinitions: {
         apiKeyAuth: {
             type: "apiKey",
@@ -25,6 +27,7 @@ const routes = [
     "./src/routes/user.route",
     "./src/routes/auth.route",
     "./src/routes/item.route",
+    "./src/routes/item_image.route",
     "./src/routes/store.route",
 ]
 
