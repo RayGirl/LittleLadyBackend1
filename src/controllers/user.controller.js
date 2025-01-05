@@ -162,7 +162,7 @@ const DELETE_USER = ExpressAsyncHandler(async (req, res) => {
 const CHANGE_PASSWORD = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['User']
           #swagger.description = 'Change Password.' */
-  
+
     /*	#swagger.parameters['obj'] = 
      
               {
@@ -174,48 +174,48 @@ const CHANGE_PASSWORD = ExpressAsyncHandler(async (req, res) => {
                       new_password: "string",
                }}
        */
-  
+
     /* #swagger.security = [{
               "apiKeyAuth": []
       }] */
     const { user_uuid } = req.params;
     const { new_password, old_password } = req.body;
-  
+
     if (!new_password || !old_password || !user_uuid) {
-      res.status(400).json({
-        success: false,
-        message: "All fields are mandatory.",
-      });
-      return;
+        res.status(400).json({
+            success: false,
+            message: "All fields are mandatory.",
+        });
+        return;
     }
-  
-    const user = await DB.USER.findOne({where:{uuid:user_uuid}});
-  
+
+    const user = await DB.USER.findOne({ where: { uuid: user_uuid } });
+
     if (!user) {
-      throw new ErrorResponse(404, "Invalid user")
+        throw new ErrorResponse(404, "Invalid user")
     }
-  
+
     const old_password_match = await bcryptjs.compare(old_password, user.password);
-  
+
     if (!old_password_match) {
-      throw new ErrorResponse(400, "old password is incorrect")
+        throw new ErrorResponse(400, "old password is incorrect")
     }
-  
+
     const hashed_password = await bcryptjs.hash(new_password, 10);
-  
-    
+
+
     await user.update({
         password: hashed_password,
     });
 
     res.status(200).json({ success: true, message: "Password changed." });
-    
-  });
 
-const ADD_USER_ADDRESS = ExpressAsyncHandler(async (req, res)=>{
+});
+
+const ADD_USER_ADDRESS = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['User']
           #swagger.description = 'Add user address.' */
-  
+
     /*	#swagger.parameters['obj'] = 
               {
               in: 'body',
@@ -230,15 +230,15 @@ const ADD_USER_ADDRESS = ExpressAsyncHandler(async (req, res)=>{
                       country: "string",
                }}
        */
-  
+
     /* #swagger.security = [{
               "apiKeyAuth": []
       }] */
 
-    const {user_id} = req.params;
-    const {apt_details, address, city, state, postal_code, country} = req.body;
+    const { user_id } = req.params;
+    const { apt_details, address, city, state, postal_code, country } = req.body;
 
-    if(!apt_details || !address || !city || !state || !postal_code || !country || !user_id){
+    if (!apt_details || !address || !city || !state || !postal_code || !country || !user_id) {
         throw new ErrorResponse(400, "All fields are mandatory");
     }
 
@@ -246,7 +246,7 @@ const ADD_USER_ADDRESS = ExpressAsyncHandler(async (req, res)=>{
         apt_details, address, city, state, postal_code, country, user_id
     })
 
-    res.status(201).json({success: true, message:"Address added successfully"})
+    res.status(201).json({ success: true, message: "Address added successfully" })
 
 })
 
@@ -311,8 +311,45 @@ const UPDATE_USER_ADDRESS = ExpressAsyncHandler(async (req, res) => {
 
     await user_address.update(req.body);
 
-    res.status(200).json({ success: true, message:"Address updated" });
+    res.status(200).json({ success: true, message: "Address updated" });
 
+});
+
+const GET_USER_CART = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['User']
+        #swagger.description = 'Get one user by uuid' */
+
+    /*	#swagger.parameters['obj'] = {
+              in: 'path',
+              description: 'The User UUID.',
+              required: true,
+              name: 'user_uuid'
+      } */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const { user_uuid } = req.params;
+
+    const user = await DB.USER.findOne({
+        where: { uuid: user_uuid },
+    });
+
+    if (!user) throw new ErrorResponse(404, "User not found");
+
+    const user_cart = await user.getCartItems({
+        include: {
+            model: DB.ITEM,
+            include: {
+                model: DB.ITEM_IMAGE,
+                limit: 1,
+                order: [['createdAt', 'ASC']]
+            }
+        }
+    });
+
+    res.status(200).json({ success: true, data: { user_cart } });
 });
 
 module.exports = {
@@ -325,4 +362,5 @@ module.exports = {
     ADD_USER_ADDRESS,
     GET_USER_ADDRESS,
     UPDATE_USER_ADDRESS,
+    GET_USER_CART,
 }

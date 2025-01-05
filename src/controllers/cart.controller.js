@@ -1,0 +1,119 @@
+const ExpressAsyncHandler = require("express-async-handler");
+const DB = require("../models");
+const ErrorResponse = require("../utils/error_response");
+
+const ADD_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['Cart']
+          #swagger.description = 'Add item to cart' */
+
+    /*	#swagger.parameters['obj'] = {
+              in: 'body',
+              description: 'Add item to cart',
+              required: true,
+              schema: { 
+                    item_id:"1",
+                    quantity: "1"
+               }
+      } */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const user_id = req.user.id;
+    const { item_id, quantity } = req.body;
+    if(!item_id || !quantity || !user_id){
+        throw new ErrorResponse(400, "All fields are required");
+    }
+    await DB.CART_ITEM.create({
+        user_id,
+        quantity,
+        item_id
+    });
+
+    res.status(201).json({
+        success: true,
+        message: "Item Added to cart successfully."
+    });
+});
+
+const GET_ALL_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['Cart']
+          #swagger.description = 'Get all cart items for the entire app.' */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const carts = await DB.CART_ITEM.findAll();
+
+    res.status(200).json({ success: true, data: { carts } });
+});
+
+const UPDATE_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['Cart']
+          #swagger.description = 'Update cart item.' */
+
+    /*	#swagger.parameters['obj'] = 
+     
+              {
+              in: 'body',
+              description: 'Update cart item.',
+              required: true,
+              schema: { 
+                    quantity: 0,
+               }}
+       */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const { cart_item_id } = req.params;
+    const { quantity } = req.body;
+    const cart = await DB.CART_ITEM.findByPk(cart_item_id);
+
+    if (!cart) {
+        throw new ErrorResponse(404, "Cart item not found.");
+    }
+
+    const update_response = await cart.update({ quantity });
+
+    res.status(200).json({
+        success: true,
+        data: {
+            cart_item: update_response,
+        },
+    });
+});
+
+const DELETE_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['Cart']
+          #swagger.description = 'Delete cart item' */
+
+    /*	#swagger.parameters['obj'] = {
+              in: 'path',
+              description: 'The Cart item ID.',
+              required: true,
+              name: 'cart_item_id'
+      } */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const { cart_item_id } = req.params;
+    await DB.CART_ITEM.destroy({
+        where: { id: cart_item_id }
+    });
+
+
+    res.status(200).json({ success: true });
+});
+
+module.exports = {
+    ADD_CART_ITEM,
+    GET_ALL_CART_ITEM,
+    UPDATE_CART_ITEM,
+    DELETE_CART_ITEM,
+};
