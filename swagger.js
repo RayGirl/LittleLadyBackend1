@@ -9,7 +9,7 @@ switch(process.env.NODE_ENV){
     schemes = ["http", "https"]
     break
   case("production"):
-    host = "skimusic-backend.onrender.com";
+    host = process.env.BACKEND_BASEURL;
     schemes = ["https", "http"]
     break
   default:
