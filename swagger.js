@@ -1,4 +1,22 @@
 const swaggerAutogen = require("swagger-autogen")();
+require("dotenv").config();
+
+let host;
+let schemes;
+switch(process.env.NODE_ENV){
+  case("development"):
+    host = "localhost:5000";
+    schemes = ["http", "https"]
+    break
+  case("production"):
+    host = "skimusic-backend.onrender.com";
+    schemes = ["https", "http"]
+    break
+  default:
+    host = "localhost:5000";
+    schemes = ["http", "https"]
+    break
+}
 
 const doc = {
     info: {
@@ -6,7 +24,8 @@ const doc = {
         description: "Little Lady Application API Swagger documentation",
         version: "1.0.0",
     },
-    host: 'localhost:5000',
+    host,
+    schemes,
     basePath: "/api",
     consumes: ["application/json", "multipart/form-data"],
     produces: ["application/json", "multipart/form-data"],
