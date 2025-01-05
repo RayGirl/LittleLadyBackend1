@@ -9,7 +9,7 @@ switch(process.env.NODE_ENV){
     schemes = ["http", "https"]
     break
   case("production"):
-    host = process.env.BACKEND_BASEURL;
+    host = "littleladybackend.onrender.com";
     schemes = ["https", "http"]
     break
   default:
