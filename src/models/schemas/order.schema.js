@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db.connection.js");
 
 const ORDER_SCHEMA = sequelize.define("Order", {
-    order_id: {
+    order_number: {
         type: DataTypes.STRING,
         allowNull: false,
         unique:true,
@@ -51,16 +51,22 @@ const ORDER_SCHEMA = sequelize.define("Order", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    discount_code: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     order_total_price: {
         type: DataTypes.STRING,
         allowNull: false,
     },
     order_status:{
         type: DataTypes.STRING, 
+        defaultValue: "pending", //pending, processing, shipped, delivered
         allowNull: false
     },
     payment_status:{
         type: DataTypes.STRING, 
+        defaultValue: "pending", //pending, received.
         allowNull: false
     }
 });

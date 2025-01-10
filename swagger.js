@@ -48,6 +48,7 @@ const routes = [
     "./src/routes/item.route",
     "./src/routes/item_image.route",
     "./src/routes/item_category.route",
+    "./src/routes/order.route",
     "./src/routes/store.route",
     "./src/routes/cart.route",
 ]
