@@ -49,7 +49,7 @@ const NATIVE_LOGIN = ExpressAsyncHandler(async (req, res) => {
     }
 
     if (!user) {
-        throw new ErrorResponse("Invalid credentials.");
+        throw new ErrorResponse(400, "Invalid credentials.");
     }
 
     if (user && (await bcryptjs.compare(password, user.password))) {
