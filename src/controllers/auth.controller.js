@@ -268,7 +268,7 @@ const SEND_VERIRICATION_EMAIL = ExpressAsyncHandler(async (req, res) => {
 
 const VERIFY_EMAIL = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Authentication']
-          #swagger.description = 'Confirm User's email address.' */
+          #swagger.description = 'Confirm User email address.' */
 
     /*	#swagger.parameters['obj'] = 
        
@@ -277,7 +277,7 @@ const VERIFY_EMAIL = ExpressAsyncHandler(async (req, res) => {
                 description: 'Confirm email token.',
                 required: true,
                 schema: { 
-                        token: "string",
+                        token: "string"
                  }}
          */
 

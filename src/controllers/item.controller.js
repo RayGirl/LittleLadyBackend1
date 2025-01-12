@@ -77,25 +77,30 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Item']
           #swagger.description = 'Get all items' */
 
-    /*	#swagger.parameters['obj'] = {
-      in: 'query',
-      description: 'Get all items that belongs to a user.',
-      required: false,
-      name: 'user_uuid'
-} */
 
     /* #swagger.security = [{
               "apiKeyAuth": []
       }] */
 
-    const { user_uuid } = req.query;
-    if (user_uuid) {
-        const items = await DB.ITEM.findAll({
-            where: { user_uuid }
-        });
-        return res.status(200).json({ success: true, data: { items } });
+    const { user_id, category_id } = req.query;
+    const where = {};
+    const allowed_keys = ["user_id", "category_id"];
+
+    for(const key of Object.keys(req.query)){
+        if(allowed_keys.includes(key)){
+            where[key] = req.query[key];
+        }
     }
-    const items = await DB.ITEM.findAll();
+
+    const items = await DB.ITEM.findAll({
+        where,
+        include: {
+            model: DB.ITEM_IMAGE,
+            limit: 1,
+            // separate: true,
+            order: [["createdAt", "DESC"]]
+        }
+    });
 
     res.status(200).json({ success: true, data: { items } });
 });

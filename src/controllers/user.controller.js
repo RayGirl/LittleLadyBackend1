@@ -34,7 +34,7 @@ const CREATE_USER = ExpressAsyncHandler(async (req, res) => {
     });
 
     if (email_exist) {
-        throw new ErrorResponse(400, "Email has been used");
+        throw new ErrorResponse(400, "This email is not available");
     }
 
     const username_exist = await DB.USER.findOne({
@@ -42,7 +42,7 @@ const CREATE_USER = ExpressAsyncHandler(async (req, res) => {
     });
 
     if (username_exist) {
-        throw new ErrorResponse(400, "Username has been used");
+        throw new ErrorResponse(400, "This username is not available");
     }
 
     const hashed_password = await bcryptjs.hash(password, 10);
