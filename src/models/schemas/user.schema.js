@@ -39,6 +39,11 @@ const USER_SCHEMA = sequelize.define("User", {
         defaultValue: false,
         allowNull: false,
     },
+    is_disabled:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+    },
 })
 
 USER_SCHEMA.prototype.toJSON = function (){

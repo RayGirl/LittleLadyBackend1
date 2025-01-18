@@ -25,5 +25,5 @@ app.use(errorHandler);
 
 
 app.listen(process.env.PORT || 5000, ()=>{
-    process.env.NODE_ENV === "development" && console.log(`Server running on port ${process.env.PORT || 5000}`)
+    process.env.NODE_ENV === "development" && console.log(`Project documentation at http://localhost:${process.env.PORT || 5000}/api-doc`)
 })

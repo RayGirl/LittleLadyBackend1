@@ -6,6 +6,7 @@ const multer = require("multer");
 const { BACKEND_BASEURL } = require("../config/url.config");
 const fsp = require("fs/promises");
 const path = require("path");
+const { default: slugify } = require("slugify");
 
 const ADD_ITEM = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Item']
@@ -18,11 +19,16 @@ const ADD_ITEM = ExpressAsyncHandler(async (req, res) => {
               schema: { 
                     title: "string",
                     description: "string",
-                    price: 0.0,
+                    price: "0.0",
                     in_stock: false,
-                    total_in_stock: 0,
+                    max_age: "1",
+                    min_age: '1',
+                    total_in_stock: "0",
                     pick_up_available: true,
-                    ready_in:0,
+                    price_filter: "low | high",
+                    ready_in:"0",
+                    store_id: "0",
+                    category_id: "0"
                }
       } */
 
@@ -31,18 +37,31 @@ const ADD_ITEM = ExpressAsyncHandler(async (req, res) => {
       }] */
 
     const user_id = req.user.id;
-    const { title, description, price, in_stock, total_in_stock, pick_up_available, ready_in } = req.body;
+    const { title, description, max_age, min_age, price, in_stock, total_in_stock, pick_up_available, price_filter, ready_in, store_id, category_id } = req.body;
 
-    if (!title || !description || !price || !in_stock || !total_in_stock || !pick_up_available || !ready_in || !user_id) {
+    if (!title || !description || !max_age || !min_age || !price || !in_stock || !total_in_stock || !pick_up_available || !ready_in || !price_filter || !store_id || !category_id || !user_id) {
         throw new ErrorResponse(400, "All fields are mandatory")
     }
 
+    let slug;
+
+    slug = slugify(title);
+    
+    const title_exist = await DB.ITEM.findOne({
+        where:{slug}
+    })
+
+    if(title_exist){
+        slug += "-"+ crypto.randomUUID().split("-")[0]
+    }
+
     await DB.ITEM.create({
-        title, description, price, in_stock, total_in_stock, pick_up_available, ready_in, user_id
+        title, slug, max_age, min_age, description, price, in_stock, total_in_stock, pick_up_available, ready_in, price_filter, user_id, store_id, category_id
     });
 
     res.status(201).json({
-        success: true
+        success: true,
+        message: "Item added successfully"
     });
 });
 
@@ -82,9 +101,21 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
               "apiKeyAuth": []
       }] */
 
-    const { user_id, category_id } = req.query;
+    const { slug, user_id, category_id, price_filter, in_stock} = req.query;
+    if(slug){
+        const item = await DB.ITEM.findOne({
+            where:{slug},
+            include:{
+                model: DB.ITEM_IMAGE,
+                separate: true,
+                order: [["createdAt", "DESC"]]
+            }
+        })
+
+        return res.status(200).json({success: true, data:{item}});
+    }
     const where = {};
-    const allowed_keys = ["user_id", "category_id"];
+    const allowed_keys = ["user_id", "category_id", "in_stock"];
 
     for(const key of Object.keys(req.query)){
         if(allowed_keys.includes(key)){
@@ -92,8 +123,15 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
         }
     }
 
+    let order = [["createdAt", "DESC"]]
+
+    if(req.query.price_filter){
+        order = [["price", req.query.price_filter.toLowerCase() === "asc" ? "ASC" : "DESC"]]
+    }
+
     const items = await DB.ITEM.findAll({
         where,
+        order,
         include: {
             model: DB.ITEM_IMAGE,
             limit: 1,
@@ -118,11 +156,16 @@ const UPDATE_ITEM = ExpressAsyncHandler(async (req, res) => {
               schema: { 
                     title: "string",
                     description: "string",
-                    price: 0.0,
+                    price: "0.0",
                     in_stock: false,
-                    total_in_stock: 0,
+                    max_age: "1",
+                    min_age: '1',
+                    total_in_stock: "0",
                     pick_up_available: true,
-                    ready_in:0,
+                    price_filter: "low | high",
+                    ready_in:"0",
+                    store_id: "0",
+                    category_id: "0"
                }}
        */
 
@@ -141,6 +184,7 @@ const UPDATE_ITEM = ExpressAsyncHandler(async (req, res) => {
 
     res.status(200).json({
         success: true,
+        message: "Update successful"
     });
 });
 

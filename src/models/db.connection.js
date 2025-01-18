@@ -18,6 +18,9 @@ const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
     acquire: 300000,
     idle: 100000,
   },
+  dialectOptions:{
+    decimalNumbers: true,
+  },
   define:{
     freezeTableName:true,
     underscored:true,

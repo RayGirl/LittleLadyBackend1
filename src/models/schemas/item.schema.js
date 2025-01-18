@@ -6,12 +6,25 @@ const ITEM_SCHEMA = sequelize.define("Item", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  },
   description: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
   },
   price: {
     type: DataTypes.DECIMAL(19,5),
+    allowNull: false,
+  },
+  max_age: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  min_age: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   in_stock: {
@@ -24,6 +37,10 @@ const ITEM_SCHEMA = sequelize.define("Item", {
   },
   pick_up_available: {
     type: DataTypes.BOOLEAN,
+    allowNull: false,
+  },
+  price_filter: { //low or high
+    type: DataTypes.STRING, 
     allowNull: false,
   },
   ready_in: { //Time taken for the item to be ready (Will be ready in?)

@@ -1,6 +1,7 @@
 const ExpressAsyncHandler = require("express-async-handler");
 const DB = require("../models");
 const ErrorResponse = require("../utils/error_response");
+const { default: slugify } = require("slugify");
 
 const ADD_ITEM_CATEGORY = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Item Category']
@@ -21,9 +22,13 @@ const ADD_ITEM_CATEGORY = ExpressAsyncHandler(async (req, res) => {
 
     const { name } = req.body;
 
+    let category_slug;
+
+    category_slug = slugify(name);
 
     await DB.ITEM_CATEGORY.create({
         name,
+        category_slug: category_slug.toLowerCase()
     });
 
     res.status(201).json({

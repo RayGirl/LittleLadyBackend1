@@ -7,6 +7,11 @@ const ITEM_CATEGORY_SCHEMA = sequelize.define("ItemCategory", {
     allowNull: false,
     unique: true
   },
+  category_slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
+  }
 });
 
 ITEM_CATEGORY_SCHEMA.prototype.toJSON = function (){
