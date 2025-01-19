@@ -7,6 +7,7 @@ const { BACKEND_BASEURL } = require("../config/url.config");
 const fsp = require("fs/promises");
 const path = require("path");
 const { default: slugify } = require("slugify");
+const { getPagingData, getPagination } = require("../helper/paginate");
 
 const ADD_ITEM = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Item']
@@ -101,7 +102,7 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
               "apiKeyAuth": []
       }] */
 
-    const { slug, user_id, category_id, price_filter, in_stock} = req.query;
+    const { slug, page, size, user_id, category_id, price_filter, in_stock} = req.query;
     if(slug){
         const item = await DB.ITEM.findOne({
             where:{slug},
@@ -114,6 +115,9 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
 
         return res.status(200).json({success: true, data:{item}});
     }
+
+    const {limit, offset} = getPagination(page, size);
+
     const where = {};
     const allowed_keys = ["user_id", "category_id", "in_stock"];
 
@@ -129,7 +133,9 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
         order = [["price", req.query.price_filter.toLowerCase() === "asc" ? "ASC" : "DESC"]]
     }
 
-    const items = await DB.ITEM.findAll({
+    const items = await DB.ITEM.findAndCountAll({
+        limit,
+        offset,
         where,
         order,
         include: {
@@ -140,7 +146,10 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
         }
     });
 
-    res.status(200).json({ success: true, data: { items } });
+    const items_res = getPagingData(items, page, limit);
+    const {total_items, data, total_pages, current_page} = items_res;
+
+    res.status(200).json({ success: true, total_items, total_pages, current_page, data: { items: data } });
 });
 
 const UPDATE_ITEM = ExpressAsyncHandler(async (req, res) => {

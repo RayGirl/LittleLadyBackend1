@@ -2,6 +2,7 @@ const ExpressAsyncHandler = require("express-async-handler");
 const ErrorResponse = require("../utils/error_response");
 const DB = require("../models");
 const bcryptjs = require("bcryptjs");
+const { getPagination, getPagingData } = require("../helper/paginate");
 
 const CREATE_USER = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['User']
@@ -94,9 +95,18 @@ const GET_USERS = ExpressAsyncHandler(async (req, res) => {
               "apiKeyAuth": []
       }] */
 
-    const user = await DB.USER.findAll();
+    const {page, size} = req.query;
 
-    res.status(200).json({ success: true, data: { user } });
+    const {limit, offset} = getPagination(page, size);
+
+    const user = await DB.USER.findAndCountAll({
+        limit, offset
+    });
+
+    const user_res = getPagingData(user, page, limit);
+    const {total_items, data, total_pages, current_page} = user_res;
+
+    res.status(200).json({ success: true, total_items, total_pages, current_page, data: { users: data } });
 });
 
 const UPDATE_USER = ExpressAsyncHandler(async (req, res) => {

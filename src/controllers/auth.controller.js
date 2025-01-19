@@ -190,7 +190,7 @@ const GOOGLE_LOGIN = ExpressAsyncHandler(async (req, res) => {
     const access_token = jwt.sign(
         {
             user: {
-                id: user.id,
+                id: social_user.id,
                 user_uuid: social_user.uuid,
                 role_id: social_user.role_id,
             },
