@@ -149,7 +149,7 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
     const items_res = getPagingData(items, page, limit);
     const {total_items, data, total_pages, current_page} = items_res;
 
-    res.status(200).json({ success: true, total_items, total_pages, current_page, data: { items: data } });
+    res.status(200).json({ success: true, data: { items: data, total_items, total_pages, current_page } });
 });
 
 const UPDATE_ITEM = ExpressAsyncHandler(async (req, res) => {

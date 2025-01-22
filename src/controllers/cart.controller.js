@@ -22,14 +22,24 @@ const ADD_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
 
     const user_id = req.user.id;
     const { item_id, quantity } = req.body;
-    if(!item_id || !quantity || !user_id){
+    if (!item_id || !quantity || !user_id) {
         throw new ErrorResponse(400, "All fields are required");
     }
-    await DB.CART_ITEM.create({
-        user_id,
-        quantity,
-        item_id
+
+    const [cart, isJustCreated] = await DB.CART_ITEM.findOrCreate({
+        where: { user_id, item_id },
+        defaults: {
+            user_id,
+            quantity,
+            item_id
+        }
     });
+
+    if(!isJustCreated){
+        cart.update({
+            quantity:(+cart.quantity)+(+quantity)
+        })
+    }
 
     res.status(201).json({
         success: true,
@@ -41,11 +51,35 @@ const GET_ALL_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Cart']
           #swagger.description = 'Get all cart items for the entire app.' */
 
+    /*	#swagger.parameters['obj'] = {
+             in: 'query',
+             description: 'User id.',
+             required: false,
+             name: 'user_id'
+     } */
+
     /* #swagger.security = [{
               "apiKeyAuth": []
       }] */
 
-    const carts = await DB.CART_ITEM.findAll();
+    const { user_id, order_status } = req.query;
+
+    const where = {};
+    const allowed_keys = ["user_id", "order_id"];
+    for (const key of Object.keys(req.query)) {
+        if (allowed_keys.includes(key)) {
+            where[key] = req.query[key];
+        }
+    }
+    if (order_status) {
+        let order_id = order_status === "pending_order" && null;
+        where["order_id"] = order_id
+        console.log(where)
+    }
+
+    const carts = await DB.CART_ITEM.findAll({
+        where
+    });
 
     res.status(200).json({ success: true, data: { carts } });
 });
@@ -61,7 +95,8 @@ const UPDATE_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
               description: 'Update cart item.',
               required: true,
               schema: { 
-                    quantity: 0,
+                    order_id: "0",
+                    quantity: "0"
                }}
        */
 
@@ -70,14 +105,14 @@ const UPDATE_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
       }] */
 
     const { cart_item_id } = req.params;
-    const { quantity } = req.body;
+
     const cart = await DB.CART_ITEM.findByPk(cart_item_id);
 
     if (!cart) {
         throw new ErrorResponse(404, "Cart item not found.");
     }
 
-    const update_response = await cart.update({ quantity });
+    const update_response = await cart.update(req.body);
 
     res.status(200).json({
         success: true,

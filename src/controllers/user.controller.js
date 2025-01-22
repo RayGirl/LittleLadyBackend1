@@ -330,9 +330,9 @@ const GET_USER_CART = ExpressAsyncHandler(async (req, res) => {
         #swagger.description = 'Get one user by uuid' */
 
     /*	#swagger.parameters['obj'] = {
-              in: 'path',
+              in: 'query',
               description: 'The User UUID.',
-              required: true,
+              required: false,
               name: 'user_uuid'
       } */
 
@@ -340,15 +340,33 @@ const GET_USER_CART = ExpressAsyncHandler(async (req, res) => {
               "apiKeyAuth": []
       }] */
 
-    const { user_uuid } = req.params;
+    const { user_uuid } = req.query;
 
+    if(!user_uuid && req.user.id){
+        const user_cart = await DB.CART_ITEM.findAll({
+            where:{user_id:req.user.id, order_id:null},
+            include: {
+                model: DB.ITEM,
+                include: {
+                    model: DB.ITEM_IMAGE,
+                    limit: 1,
+                    order: [['createdAt', 'ASC']]
+                }
+            }
+        })
+        return res.status(200).json({ success: true, data: { user_cart } });
+    }
+    console.log(user_uuid)
+    
     const user = await DB.USER.findOne({
         where: { uuid: user_uuid },
     });
 
-    if (!user) throw new ErrorResponse(404, "User not found");
+    console.log(user)
+    if (!user) throw new ErrorResponse(404, "User not found"+user_uuid);
 
     const user_cart = await user.getCartItems({
+        where:{order_id:null},
         include: {
             model: DB.ITEM,
             include: {

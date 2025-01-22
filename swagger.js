@@ -51,6 +51,7 @@ const routes = [
     "./src/routes/order.route",
     "./src/routes/store.route",
     "./src/routes/cart.route",
+    "./src/routes/guest_cart.route",
     "./src/routes/shipping_method.route",
 ]
 

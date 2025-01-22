@@ -9,6 +9,7 @@ const CART_ITEM_SCHEMA = require("./schemas/cart_item.schema");
 const ORDER_SCHEMA = require("./schemas/order.schema");
 const SOCIAL_LOGIN_SCHEMA = require("./schemas/social_login.schema");
 const SHIPPING_METHOD_SCHEMA = require("./schemas/shipping_method.schema");
+const GUEST_CART_ITEM_SCHEMA = require("./schemas/guest_cart_item.schema");
 
 // User Relationship
 USER_SCHEMA.belongsTo(ROLE_SCHEMA, {foreignKey: {name: "role_id"}, onDelete:"NO ACTION"})
@@ -34,10 +35,14 @@ CART_ITEM_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"
 CART_ITEM_SCHEMA.belongsTo(ITEM_SCHEMA, {foreignKey:{name:"item_id"}, onDelete:"CASCADE"});
 CART_ITEM_SCHEMA.belongsTo(ORDER_SCHEMA, {foreignKey:{name:"order_id"}, onDelete:"SET NULL"});
 
+// Guest Cart Relationship
+GUEST_CART_ITEM_SCHEMA.belongsTo(ITEM_SCHEMA, {foreignKey:{name:"item_id"}, onDelete:"CASCADE"})
+GUEST_CART_ITEM_SCHEMA.belongsTo(ORDER_SCHEMA, {foreignKey:{name:"order_id"}, onDelete:"SET NULL"})
+
 // Order Relationship
 ORDER_SCHEMA.hasMany(CART_ITEM_SCHEMA, {foreignKey:{name:"order_id"}, onDelete:"SET NULL"});
 ORDER_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id", allowNull:true}, onDelete:"SET NULL"});
 ORDER_SCHEMA.belongsTo(SHIPPING_METHOD_SCHEMA, {foreignKey:{name:"shippingmethod_id", allowNull:true}, onDelete:"SET NULL"});
 
-// Social login relationship
+// Social login Relationship
 SOCIAL_LOGIN_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"});

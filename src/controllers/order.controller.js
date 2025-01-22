@@ -39,19 +39,70 @@ const ADD_ORDER = ExpressAsyncHandler(async (req, res) => {
         throw new ErrorResponse(400, "All fields are required");
     }
 
-    let order_details = "";
-
-    if(user_id){
-        order_details = {
-            order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, user_id
-        }
-    } else{
-        order_details = {
-            order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id
-        }
+    order_details = {
+        order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, user_id
     }
 
-    await DB.ORDER.create(order_details);
+    const order = await DB.ORDER.create(order_details);
+
+    await DB.CART_ITEM.update(
+        {order_id: order.id},
+        {where:{user_id, order_id:null}}
+    )
+
+    res.status(201).json({
+        success: true,
+        message: "Order created successfully."
+    });
+});
+
+const ADD_GUEST_ORDER = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['Order']
+          #swagger.description = "Add guest order" */
+
+    /*	#swagger.parameters['obj'] = {
+              in: 'body',
+              description: "Add guest order",
+              required: true,
+              schema: { 
+                    order_number:"string",
+                    first_name: "string",
+                    last_name: "string",
+                    contact_phone_number: "string",
+                    contact_email_address: "string",
+                    address: "string",
+                    city: "string",
+                    state: "string",
+                    postal_code: "optional",
+                    country: "string",
+                    delivery_type: "string",
+                    discount_code: "optional",
+                    order_total_price: "string",
+                    shippingmethod_id: "string",
+                    session_id: "string"
+                }
+      } */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    
+    const { order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, session_id } = req.body;
+    if (!order_id || !first_name || !last_name || !contact_phone_number || !contact_email_address || !address || !city || !state || !country || !delivery_type || !order_total_price || !shippingmethod_id || !session_id) {
+        throw new ErrorResponse(400, "All fields are required");
+    }
+
+    order_details = {
+        order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, session_id
+    }
+
+    const order = await DB.ORDER.create(order_details);
+
+    await DB.GUEST_CART_ITEM.update(
+        {order_id: order.id},
+        {where:{session_id, order_id:null}}
+    )
 
     res.status(201).json({
         success: true,
@@ -214,5 +265,6 @@ module.exports = {
     GET_ALL_ORDERS,
     UPDATE_ORDER,
     DELETE_ORDER,
-    GET_ORDER
+    GET_ORDER,
+    ADD_GUEST_ORDER
 };

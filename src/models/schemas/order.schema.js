@@ -47,6 +47,10 @@ const ORDER_SCHEMA = sequelize.define("Order", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    session_id: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     delivery_type: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -56,7 +60,7 @@ const ORDER_SCHEMA = sequelize.define("Order", {
         allowNull: true,
     },
     order_total_price: {
-        type: DataTypes.STRING,
+        type: DataTypes.DECIMAL(19,5),
         allowNull: false,
     },
     order_status:{
