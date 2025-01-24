@@ -26,18 +26,22 @@ const ADD_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
         throw new ErrorResponse(400, "All fields are required");
     }
 
+    const item = await DB.ITEM.findByPk(item_id,{
+        attributes:["total_in_stock"],
+    })
+
     const [cart, isJustCreated] = await DB.CART_ITEM.findOrCreate({
         where: { user_id, item_id },
         defaults: {
             user_id,
-            quantity,
+            quantity: quantity > item.total_in_stock ? item.total_in_stock : quantity,
             item_id
         }
     });
 
     if(!isJustCreated){
         cart.update({
-            quantity:(+cart.quantity)+(+quantity)
+            quantity:(+cart.quantity)+(+quantity) > item.total_in_stock ? item.total_in_stock : (+cart.quantity)+(+quantity)
         })
     }
 
@@ -74,14 +78,21 @@ const GET_ALL_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
     if (order_status) {
         let order_id = order_status === "pending_order" && null;
         where["order_id"] = order_id
-        console.log(where)
     }
 
-    const carts = await DB.CART_ITEM.findAll({
-        where
+    const cart = await DB.CART_ITEM.findAll({
+        where,
+        include:[
+            {model:DB.ITEM,
+            attributes:["title", "price", "total_in_stock"],
+            // include:[
+            //     {model:DB.}
+            // ]
+            }
+        ]
     });
 
-    res.status(200).json({ success: true, data: { carts } });
+    res.status(200).json({ success: true, data: { cart } });
 });
 
 const UPDATE_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
