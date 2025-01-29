@@ -7,6 +7,66 @@ const { BACKEND_BASEURL } = require("../config/url.config");
 const fsp = require("fs/promises");
 const path = require("path");
 
+const ADD_ITEM_IMAGE = ExpressAsyncHandler(async (req, res) => {
+    /* 	#swagger.tags = ['Item Image']
+          #swagger.description = 'Add Item Images' */
+
+    /*
+    #swagger.consumes = ['multipart/form-data']
+    #swagger.parameters['item_image'] = {
+        in: 'formData',
+        type: 'array',
+        required:true,
+        description:'Item Image upload',
+        collectionFormat: 'multi',
+        items: {type: 'file'}
+    }
+     */
+
+    /* #swagger.security = [{
+              "apiKeyAuth": []
+      }] */
+
+    const item_id = req.params.item_id;
+    const item = await DB.ITEM.findByPk(item_id);
+    if (!item) {
+        throw new ErrorResponse(404, "Invalid item")
+    }
+    upload.array("item_image",5)(req, res, async function (err) {
+        if (err instanceof multer.MulterError) {
+            return res.status(500).json({ success: false, message: err })
+        } else if (err) {
+            return res.status(500).json({ success: false, message: err })
+        }
+
+        
+        const files = req.files;
+        
+        if(!files){
+            return res.status(400).json({success: false, message:"No files uploaded"})
+        }
+        for (let file of files) {
+            try {
+                const file_path = BACKEND_BASEURL + "/media/uploads/" + file.filename;
+                await DB.ITEM_IMAGE.create({
+                    item_id,
+                    image_url: file_path,
+                })
+            } catch (err) {
+                for(let file_ of files){
+                    await fsp.unlink(file_.path);
+                }
+                return res.status(500).json({ success: false, message: err });
+            }
+        }
+        res.status(201).json({
+            success: true,
+            message: "Image(s) added successfully"
+        })
+    });
+
+});
+
 const DELETE_ITEM_IMAGE = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['Item Image']
           #swagger.description = 'Delete item image by id' */
@@ -105,6 +165,7 @@ const UPDATE_ITEM_IMAGE = ExpressAsyncHandler(async (req, res) => {
 
 
 module.exports = {
+    ADD_ITEM_IMAGE,
     DELETE_ITEM_IMAGE,
     UPDATE_ITEM_IMAGE
 };

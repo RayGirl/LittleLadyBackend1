@@ -43,6 +43,11 @@ const ITEM_SCHEMA = sequelize.define("Item", {
     type: DataTypes.STRING, 
     allowNull: false,
   },
+  is_archived:{
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
   ready_in: { //Time taken for the item to be ready (Will be ready in?)
     type: DataTypes.INTEGER,
     allowNull: false,

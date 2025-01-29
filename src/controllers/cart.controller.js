@@ -66,7 +66,7 @@ const GET_ALL_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
               "apiKeyAuth": []
       }] */
 
-    const { user_id, order_status } = req.query;
+    const { user_id, order_status, order_id } = req.query;
 
     const where = {};
     const allowed_keys = ["user_id", "order_id"];
@@ -75,16 +75,18 @@ const GET_ALL_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
             where[key] = req.query[key];
         }
     }
+
     if (order_status) {
-        let order_id = order_status === "pending_order" && null;
-        where["order_id"] = order_id
+        if(order_status === "pending_order"){
+            where["order_id"] = null
+        }
     }
 
     const cart = await DB.CART_ITEM.findAll({
         where,
         include:[
             {model:DB.ITEM,
-            attributes:["title", "price", "total_in_stock"],
+            attributes:["title", "slug", "price", "total_in_stock"],
             // include:[
             //     {model:DB.}
             // ]

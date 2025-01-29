@@ -1,11 +1,6 @@
 const ExpressAsyncHandler = require("express-async-handler");
 const DB = require("../models");
 const ErrorResponse = require("../utils/error_response");
-const upload = require("../utils/file_upload.utils");
-const multer = require("multer");
-const { BACKEND_BASEURL } = require("../config/url.config");
-const fsp = require("fs/promises");
-const path = require("path");
 const { default: slugify } = require("slugify");
 const { getPagingData, getPagination } = require("../helper/paginate");
 
@@ -56,13 +51,16 @@ const ADD_ITEM = ExpressAsyncHandler(async (req, res) => {
         slug += "-"+ crypto.randomUUID().split("-")[0]
     }
 
-    await DB.ITEM.create({
+    const item = await DB.ITEM.create({
         title, slug, max_age, min_age, description, price, in_stock, total_in_stock, pick_up_available, ready_in, price_filter, user_id, store_id, category_id
     });
 
     res.status(201).json({
         success: true,
-        message: "Item added successfully"
+        message: "Item added successfully",
+        data:{
+            item_id: item.id
+        }
     });
 });
 
@@ -118,7 +116,7 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
 
     const {limit, offset} = getPagination(page, size);
 
-    const where = {};
+    const where = {is_archived: false};
     const allowed_keys = ["user_id", "category_id", "in_stock"];
 
     for(const key of Object.keys(req.query)){
@@ -126,6 +124,16 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
             where[key] = req.query[key];
         }
     }
+
+    if(req.query.is_archived){
+        if(req.query.is_archived === "show_all"){
+            delete where.is_archived
+        }else{
+            where.is_archived = req.query.is_archived
+        }
+    }
+
+    console.log(where)
 
     let order = [["createdAt", "DESC"]]
 
@@ -138,12 +146,16 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
         offset,
         where,
         order,
-        include: {
+        include: [{
             model: DB.ITEM_IMAGE,
             limit: 1,
             // separate: true,
             order: [["createdAt", "DESC"]]
-        }
+        },
+        {
+            model: DB.ITEM_CATEGORY,
+            attributes: ["name"]
+        }]
     });
 
     const items_res = getPagingData(items, page, limit);
@@ -182,8 +194,8 @@ const UPDATE_ITEM = ExpressAsyncHandler(async (req, res) => {
               "apiKeyAuth": []
       }] */
 
-    const { item_id } = req.params;
-    const item = await DB.ITEM.findByPk(item_id);
+    const { item_slug } = req.params;
+    const item = await DB.ITEM.findOne({where:{slug:item_slug}});
 
     if (!item) {
         throw new ErrorResponse(404, "Item not found.");
@@ -221,61 +233,6 @@ const DELETE_ITEM = ExpressAsyncHandler(async (req, res) => {
     res.status(200).json({ success: true });
 });
 
-const ADD_ITEM_IMAGE = ExpressAsyncHandler(async (req, res) => {
-    /* 	#swagger.tags = ['Item']
-          #swagger.description = 'Add Item Images' */
-
-    /*
-    #swagger.consumes = ['multipart/form-data']
-    #swagger.parameters['item_image'] = {
-        in: 'formData',
-        type: 'array',
-        required:true,
-        description:'Item Image upload',
-        collectionFormat: 'multi',
-        items: {type: 'file'}
-    }
-     */
-
-    /* #swagger.security = [{
-              "apiKeyAuth": []
-      }] */
-
-    const item_id = req.params.item_id;
-    const item = await DB.ITEM.findByPk(item_id);
-    if (!item) {
-        throw new ErrorResponse(404, "Invalid item")
-    }
-    upload.array("item_image",5)(req, res, async function (err) {
-        if (err instanceof multer.MulterError) {
-            return res.status(500).json({ success: false, message: err })
-        } else if (err) {
-            return res.status(500).json({ success: false, message: err })
-        }
-
-        const files = req.files;
-        for (let file of files) {
-            try {
-                const file_path = BACKEND_BASEURL + "/media/uploads/" + file.filename;
-                await DB.ITEM_IMAGE.create({
-                    item_id,
-                    image_url: file_path,
-                })
-            } catch (err) {
-                for(let file_ of files){
-                    await fsp.unlink(file_.path);
-                }
-                return res.status(500).json({ success: false, message: err });
-            }
-        }
-        res.status(201).json({
-            success: true,
-            message: "Image(s) added successfully"
-        })
-    });
-
-});
-
 
 module.exports = {
     ADD_ITEM,
@@ -283,5 +240,4 @@ module.exports = {
     GET_ONE_ITEM,
     UPDATE_ITEM,
     DELETE_ITEM,
-    ADD_ITEM_IMAGE,
 };

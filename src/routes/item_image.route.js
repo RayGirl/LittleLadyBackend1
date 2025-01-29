@@ -4,6 +4,7 @@ const VALIDATE_TOKEN = require("../middlewares/validate_token.middleware");
 const router = express.Router();
 
 
+router.post("/item-image/:item_id", ITEM_IMAGE_CONTROLLER.ADD_ITEM_IMAGE);
 router.put("/item-image/:item_image_id", ITEM_IMAGE_CONTROLLER.UPDATE_ITEM_IMAGE);
 router.delete("/item-image/:item_image_id", ITEM_IMAGE_CONTROLLER.DELETE_ITEM_IMAGE);
 

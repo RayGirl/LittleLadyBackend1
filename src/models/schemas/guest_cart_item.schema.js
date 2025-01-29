@@ -9,7 +9,6 @@ const GUEST_CART_ITEM_SCHEMA = sequelize.define("GuestCartItem", {
   session_id: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
   },
 });
 
