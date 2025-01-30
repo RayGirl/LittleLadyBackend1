@@ -24,13 +24,11 @@ const ADD_SHIPPING_METHOD = ExpressAsyncHandler(async (req, res) => {
 
     const { method, note, method_information, price } = req.body;
 
-    if(!method || !note || !method_information || !price){
+    if(!method || !price){
         throw new ErrorResponse(400,"All fields are required");
     }
 
-    await DB.SHIPPING_METHOD.create({
-        method, note, method_information, price
-    });
+    await DB.SHIPPING_METHOD.create(req.body);
 
     res.status(201).json({
         success: true,

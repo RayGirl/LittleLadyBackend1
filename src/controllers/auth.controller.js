@@ -247,7 +247,7 @@ const SEND_VERIRICATION_EMAIL = ExpressAsyncHandler(async (req, res) => {
         { expiresIn: "10m" }
     );
 
-    const link = `${process.env.FRONTEND_BASEURL}/auth/verify-email/${token}`;
+    const link = `${process.env.FRONTEND_BASEURL}/verify-email/${token}/${email_address}`;
 
     const mail_options = {
         to_email: user.email_address,
@@ -331,7 +331,7 @@ const SEND_FORGOT_PASSWORD_EMAIL = ExpressAsyncHandler(async (req, res) => {
         { expiresIn: "10m" }
     );
 
-    const link = `${process.env.FRONTEND_BASEURL}/auth/forgot-password/${token}`;
+    const link = `${process.env.FRONTEND_BASEURL}/reset-password/${token}`;
 
     const mail_options = {
         to_email: user.email_address,
