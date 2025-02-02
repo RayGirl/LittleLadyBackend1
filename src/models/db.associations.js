@@ -43,6 +43,7 @@ GUEST_CART_ITEM_SCHEMA.belongsTo(ORDER_SCHEMA, {foreignKey:{name:"order_id"}, on
 ORDER_SCHEMA.hasMany(CART_ITEM_SCHEMA, {foreignKey:{name:"order_id"}, onDelete:"SET NULL"});
 ORDER_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id", allowNull:true}, onDelete:"SET NULL"});
 ORDER_SCHEMA.belongsTo(SHIPPING_METHOD_SCHEMA, {foreignKey:{name:"shippingmethod_id", allowNull:true}, onDelete:"SET NULL"});
+ORDER_SCHEMA.belongsTo(STORE_SCHEMA, {foreignKey:{name:"store_id", allowNull: true}, onDelete: "SET NULL"});
 
 // Social login Relationship
 SOCIAL_LOGIN_SCHEMA.belongsTo(USER_SCHEMA, {foreignKey:{name:"user_id"}, onDelete:"CASCADE"});

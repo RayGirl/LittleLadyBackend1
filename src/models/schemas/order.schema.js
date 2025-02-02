@@ -9,19 +9,19 @@ const ORDER_SCHEMA = sequelize.define("Order", {
     },
     first_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     last_name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     contact_phone_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     contact_email_address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     apt_details: {
         type: DataTypes.STRING,
@@ -29,15 +29,15 @@ const ORDER_SCHEMA = sequelize.define("Order", {
     },
     address: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     city: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     state: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     postal_code: {
         type: DataTypes.STRING,
@@ -45,7 +45,7 @@ const ORDER_SCHEMA = sequelize.define("Order", {
     },
     country: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     session_id: {
         type: DataTypes.STRING,
