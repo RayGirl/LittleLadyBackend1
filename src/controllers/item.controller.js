@@ -133,8 +133,6 @@ const GET_ITEMS = ExpressAsyncHandler(async (req, res) => {
         }
     }
 
-    console.log(where)
-
     let order = [["createdAt", "DESC"]]
 
     if(req.query.price_filter){

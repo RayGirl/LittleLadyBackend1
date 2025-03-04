@@ -106,7 +106,7 @@ const GET_USERS = ExpressAsyncHandler(async (req, res) => {
     const user_res = getPagingData(user, page, limit);
     const {total_items, data, total_pages, current_page} = user_res;
 
-    res.status(200).json({ success: true, total_items, total_pages, current_page, data: { users: data } });
+    res.status(200).json({ success: true, data: { users: data, total_items, total_pages, current_page, } });
 });
 
 const UPDATE_USER = ExpressAsyncHandler(async (req, res) => {
