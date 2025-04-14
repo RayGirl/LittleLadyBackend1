@@ -1,14 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Hello, {{first_name}},
-
-    <p>Please verify your email</p>
-    <p>{{link}}</p>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>LittleLady Email Verification</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f9f9f9;
+				margin-top: 90px;
+				padding: 0;
+				height: 70vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.email-container {
+				width: 100%;
+				height: 100%;
+				max-width: 800px;
+				max-height: 100%;
+				background-color: #ffffff;
+				border: 1px solid #e0e0e0;
+				border-radius: 8px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+				padding: 20px;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				padding-top: 70px;
+			}
+			.email-header {
+				font-size: 20px;
+				font-weight: bold;
+				color: #333;
+				margin-bottom: 20px;
+			}
+			.email-body {
+				font-size: 14px;
+				color: #555;
+				line-height: 1.6;
+				flex-grow: 1;
+				padding-top: 40px;
+			}
+			.button {
+				display: inline-block;
+				padding: 10px 20px;
+				font-size: 14px;
+				font-weight: bold;
+				color: #ffffff;
+				background-color: #3e4f22;
+				border: none;
+				border-radius: 4px;
+				text-align: center;
+				text-decoration: none;
+				cursor: pointer;
+				margin-top: 20px;
+			}
+			.button:hover {
+				background-color: #f4e9f1;
+				color: #040400;
+			}
+			.footer {
+				font-size: 12px;
+				color: #888;
+				margin-top: 20px;
+				text-align: center;
+			}
+			@media (max-width: 768px) {
+				.email-container {
+					border-radius: 0;
+					padding: 15px;
+				}
+				.email-header {
+					font-size: 18px;
+				}
+				.button {
+					padding: 8px 16px;
+					font-size: 13px;
+				}
+			}
+			@media (max-width: 480px) {
+				.email-header {
+					font-size: 16px;
+				}
+				.email-body {
+					font-size: 13px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="email-container">
+			<div class="email-header">
+				[LittleLady] Please verify your email address to get started shopping
+				effortlessly on LittleLady!
+			</div>
+			<div class="email-body">
+				<p>Hey {{username}}</p>
+				<p>
+					Once you've confirmed that
+					<strong>{{email}}</strong> is your email address,
+					click the button below to verify your email:
+				</p>
+				<a href="{{link}}" class="button">Verify Email</a>
+				<p>Thanks,<br />The LittleLady Team</p>
+			</div>
+			<div class="footer">© 2025 LittleLady, Inc.</div>
+		</div>
+	</body>
 </html>

@@ -45,7 +45,7 @@ const ADD_ORDER = ExpressAsyncHandler(async (req, res) => {
 
     let order_number = await generateOrderNumber();
 
-    const order = await DB.ORDER.create({...req.body, order_number});
+    const order = await DB.ORDER.create({...req.body, order_number, user_id});
 
     await DB.CART_ITEM.update(
         {order_id: order.id},
@@ -55,9 +55,9 @@ const ADD_ORDER = ExpressAsyncHandler(async (req, res) => {
     res.status(201).json({
         success: true,
         message: "Order created successfully.",
-        data: [
+        data: {
             order_number
-        ]
+        }
     });
 });
 

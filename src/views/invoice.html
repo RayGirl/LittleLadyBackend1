@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Invoice</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: whitesmoke;
+				padding: 20px;
+			}
+			.invoice-container {
+				max-width: 600px;
+				margin: auto;
+				background: #f5eaea;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			}
+			.header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-bottom: 2px solid #3E4F22;
+				padding-bottom: 10px;
+			}
+			.header-left {
+				display: flex;
+				flex-direction: column;
+			}
+			.header-right {
+				text-align: right;
+			}
+			.header h1 {
+				color: #3E4F22;
+				margin: 0;
+			}
+			.invoice-number {
+				font-weight: bold;
+				margin-top: 10px;
+			}
+			.logo {
+				width: 100px;
+				height: 50px;
+				background-color: #3E4F22;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 14px;
+				color: #3E4F22;
+                border-radius: 50%;
+                height: auto;
+			}
+			.company-info {
+				margin-top: 20px;
+				font-weight: bold;
+				color: #3E4F22;
+			}
+			.contact-info {
+				font-size: 14px;
+				margin-bottom: 20px;
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-top: 10px;
+			}
+			th,
+			td {
+				border: 1px solid #3E4F22;
+				padding: 10px;
+				text-align: left;
+			}
+			th {
+				background-color: #3E4F22;
+				color: white;
+			}
+			.payment-details,
+			.terms {
+				margin-top: 20px;
+			}
+			.total {
+				text-align: right;
+				font-weight: bold;
+				margin-top: 10px;
+			}
+			.thank-you {
+				text-align: center;
+				font-size: 20px;
+				font-weight: bold;
+				color: #3E4F22;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="invoice-container">
+			<div class="header">
+				<div class="header-left">
+					<p>MAY 20, 2030</p>
+					<h1>INVOICE</h1>
+					<p class="invoice-number">#0001</p>
+				</div>
+				<div class="header-right">
+                    <img src="little.png" alt="Little Lady Logo" class="logo">
+
+				</div>
+			</div>
+
+			<div class="company-info">LITTLE LADY</div>
+			<div class="contact-info">
+				+234 708 945 2866 <br />
+				hello@reallygreatsite.com
+			</div>
+
+			<table>
+				<tr>
+					<th>Description</th>
+					<th>Qty</th>
+					<th>Price</th>
+					<th>Amount</th>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+
+			<div class="payment-details">
+				<strong>PAYMENT DETAILS:</strong><br />
+				<strong>BANK NAME:</strong> JAIZ BANK<br />
+				<strong>ACCOUNT NAME:</strong> LITTLE LADY GLOBAL COLLECTIONS<br />
+				<strong>ACCOUNT NO.:</strong> 0019075538
+			</div>
+
+			<div class="total">
+				<p>SUBTOTAL:</p>
+				<p
+					style="
+						background: #3E4F22;
+						color: white;
+						padding: 10px;
+						display: inline-block;
+					">
+					TOTAL:
+				</p>
+			</div>
+
+			<div class="terms">
+				<strong>Terms and Conditions</strong><br />
+				Please send payment within 24hrs of receiving this invoice.
+			</div>
+
+			<div class="thank-you">THANK YOU</div>
+		</div>
+	</body>
+</html>

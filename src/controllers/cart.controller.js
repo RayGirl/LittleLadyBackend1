@@ -31,7 +31,7 @@ const ADD_CART_ITEM = ExpressAsyncHandler(async (req, res) => {
     })
 
     const [cart, isJustCreated] = await DB.CART_ITEM.findOrCreate({
-        where: { user_id, item_id },
+        where: { user_id, item_id, order_id: null },
         defaults: {
             user_id,
             quantity: quantity > item.total_in_stock ? item.total_in_stock : quantity,

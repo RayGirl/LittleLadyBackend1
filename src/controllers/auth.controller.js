@@ -253,7 +253,8 @@ const SEND_VERIRICATION_EMAIL = ExpressAsyncHandler(async (req, res) => {
         to_email: user.email_address,
         context: {
             link,
-            name: user.first_name
+            username: user.username,
+            email: user.email_address,
         },
         email_subject: "Little Lady Email Verification",
         template_name: "email_verification.hbs",
