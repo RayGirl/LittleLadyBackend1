@@ -93,16 +93,19 @@ const ADD_GUEST_ORDER = ExpressAsyncHandler(async (req, res) => {
       }] */
 
     
-    const { order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, session_id } = req.body;
-    if (!order_id || !first_name || !last_name || !contact_phone_number || !contact_email_address || !address || !city || !state || !country || !delivery_type || !order_total_price || !shippingmethod_id || !session_id) {
+    // const { order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, session_id } = req.body;
+    // if (!order_id || !first_name || !last_name || !contact_phone_number || !contact_email_address || !address || !city || !state || !country || !delivery_type || !order_total_price || !shippingmethod_id || !session_id) {
+    //     throw new ErrorResponse(400, "All fields are required");
+    // }
+
+    const { apt_details, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, session_id } = req.body;
+    if (!delivery_type || !order_total_price) {
         throw new ErrorResponse(400, "All fields are required");
     }
 
-    order_details = {
-        order_number, first_name, last_name, contact_phone_number, contact_email_address, address, city, state, postal_code, country, delivery_type, discount_code, order_total_price, shippingmethod_id, session_id
-    }
+    let order_number = await generateOrderNumber();
 
-    const order = await DB.ORDER.create(order_details);
+    const order = await DB.ORDER.create({...req.body, order_number, session_id});
 
     await DB.GUEST_CART_ITEM.update(
         {order_id: order.id},
@@ -111,7 +114,10 @@ const ADD_GUEST_ORDER = ExpressAsyncHandler(async (req, res) => {
 
     res.status(201).json({
         success: true,
-        message: "Order created successfully."
+        message: "Order created successfully.",
+        data:{
+            order_number
+        }
     });
 });
 
