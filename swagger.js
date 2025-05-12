@@ -21,7 +21,7 @@ switch(process.env.NODE_ENV){
 const doc = {
     info: {
         title: "Little Lady Application",
-        description: "Little Lady Application API Swagger documentation",
+        description: "Little Lady Application API documentation",
         version: "1.0.0",
     },
     host,

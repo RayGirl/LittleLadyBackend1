@@ -191,9 +191,9 @@ const UPDATE_ORDER = ExpressAsyncHandler(async (req, res) => {
         throw new ErrorResponse(404, "Order item not found.");
     }
 
-    if(order.order_status == "shipped"){
-        throw new ErrorResponse(500, "Cannot update a shipped item.")
-    }
+    // if((order.order_status).toLowerCase() == "shipped"){
+    //     throw new ErrorResponse(500, "Cannot update a shipped item.")
+    // }
 
     await order.update(req.body);
 
