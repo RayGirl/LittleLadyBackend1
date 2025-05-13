@@ -21,9 +21,16 @@ const CREATE_ROLE = ExpressAsyncHandler(async (req, res) => {
 
     const { name } = req.body;
 
+    const role_exist = await DB.ROLE.findOne({
+        where:{name}
+    })
+
+    if(role_exist){
+        throw new ErrorResponse(400, "Role already exist");
+    }
 
     const role = await DB.ROLE.create({
-        name,
+        name:name.toLowerCase(),
     });
 
     res.status(201).json({
