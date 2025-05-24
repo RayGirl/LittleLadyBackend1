@@ -59,7 +59,7 @@ const CREATE_USER = ExpressAsyncHandler(async (req, res) => {
         success: true,
         data: { user }
     })
-})
+}) 
 
 const GET_ONE_USER = ExpressAsyncHandler(async (req, res) => {
     /* 	#swagger.tags = ['User']
