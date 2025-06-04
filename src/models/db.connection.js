@@ -7,37 +7,32 @@ const {
   DB_PASSWORD,
   DB_PORT,
 } = require("../config/db.config.js");
+require("dotenv").config();
 
-const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
-  host: DB_HOST,
-  port: DB_PORT,
-  dialect: DB_DIALECT,
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: "postgres",
+  protocol: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+  define: {
+    freezeTableName: true,
+    underscored: true,
+  },
   pool: {
     max: 5,
     min: 0,
-    acquire: 300000,
-    idle: 100000,
+    acquire: 30000,
+    idle: 10000,
   },
-  dialectOptions:{
-    decimalNumbers: true,
-  },
-  define:{
-    freezeTableName:true,
-    underscored:true,
-  }
 });
 
-(async function () {
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully");
-
-    await sequelize.sync({ force: false });
-    console.log("All models were synchronized successfully");
-    
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-})();
+sequelize
+  .sync({ alter: true }) // or { force: true } for dev
+  .then(() => console.log("✅ Database synchronized"))
+  .catch((err) => console.error("❌ Sync failed:", err));
 
 module.exports = sequelize;
