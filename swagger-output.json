@@ -1,0 +1,2500 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Little Lady Application",
+    "description": "Little Lady Application API documentation",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Authorization Bearer token"
+    }
+  },
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "produces": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "paths": {
+    "/role": {
+      "post": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Create role",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Role name.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Get all roles",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/role/{role_id}": {
+      "put": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Update role name.",
+        "parameters": [
+          {
+            "name": "role_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Role name.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Get one role by id",
+        "parameters": [
+          {
+            "name": "role_id",
+            "in": "path",
+            "description": "The Role ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Role"
+        ],
+        "description": "Delete role by id",
+        "parameters": [
+          {
+            "name": "role_id",
+            "in": "path",
+            "description": "The Role ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint to register a new user",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "User information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "email_address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "role_id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Get multiple users",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/{user_uuid}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Get one user by uuid",
+        "parameters": [
+          {
+            "name": "user_uuid",
+            "in": "path",
+            "description": "The User UUID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Update user",
+        "parameters": [
+          {
+            "name": "user_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "User information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "first_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Delete one user by uuid",
+        "parameters": [
+          {
+            "name": "user_uuid",
+            "in": "path",
+            "description": "The User UUID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/{user_uuid}/change-password": {
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Change Password.",
+        "parameters": [
+          {
+            "name": "user_uuid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Change Password.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "old_password": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "new_password": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/user/{user_id}/address": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "description": "Add user address.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Add user address.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "apt_details": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "postal_code": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Get user address",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "The User ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Update user Address",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "User Address.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "apt_details": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "postal_code": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Login.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Login information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username_OR_email_address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/google": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Google Login.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Google access token.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "google_access_token": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Confirm User email address.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Confirm email token.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Forgot Password.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Forgot Password.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/verify-email/send": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Send email verification link to user.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Email verification link.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email_address": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/forgot-password/send": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Send forgot password link to user.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Forgot Password Email verification link.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email_address": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/item": {
+      "post": {
+        "tags": [
+          "Item"
+        ],
+        "description": "Create Item",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Add a product/item.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "price": {
+                  "type": "string",
+                  "example": "0.0"
+                },
+                "in_stock": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "max_age": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "min_age": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "total_in_stock": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "pick_up_available": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "price_filter": {
+                  "type": "string",
+                  "example": "low | high"
+                },
+                "ready_in": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "store_id": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "category_id": {
+                  "type": "string",
+                  "example": "0"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Item"
+        ],
+        "description": "Get all items",
+        "parameters": [
+          {
+            "name": "is_archived",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "price_filter",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "slug",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "category_id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "in_stock",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/item/{item_slug}": {
+      "put": {
+        "tags": [
+          "Item"
+        ],
+        "description": "Update item.",
+        "parameters": [
+          {
+            "name": "item_slug",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Item update.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "price": {
+                  "type": "string",
+                  "example": "0.0"
+                },
+                "in_stock": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "max_age": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "min_age": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "total_in_stock": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "pick_up_available": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "price_filter": {
+                  "type": "string",
+                  "example": "low | high"
+                },
+                "ready_in": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "store_id": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "category_id": {
+                  "type": "string",
+                  "example": "0"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/item/{item_id}": {
+      "get": {
+        "tags": [
+          "Item"
+        ],
+        "description": "Get one item by id",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The Item ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Item"
+        ],
+        "description": "Delete item by id",
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "description": "The Item ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/item-image/{item_id}": {
+      "post": {
+        "tags": [
+          "Item Image"
+        ],
+        "description": "Add Item Images",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "item_image",
+            "in": "formData",
+            "type": "array",
+            "required": true,
+            "description": "Item Image upload",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "file"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/item-image/{item_image_id}": {
+      "put": {
+        "tags": [
+          "Item Image"
+        ],
+        "description": "Update Item Image",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "item_image_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "item_image",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Item Image update"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Item Image"
+        ],
+        "description": "Delete item image by id",
+        "parameters": [
+          {
+            "name": "item_image_id",
+            "in": "path",
+            "description": "The Item Image ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/item-category": {
+      "post": {
+        "tags": [
+          "Item Category"
+        ],
+        "description": "Add Category",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Category name.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Item Category"
+        ],
+        "description": "Get all categories",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/item-category/{item_category_id}": {
+      "put": {
+        "tags": [
+          "Item Category"
+        ],
+        "description": "Update item category name.",
+        "parameters": [
+          {
+            "name": "item_category_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Item Category name.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Item Category"
+        ],
+        "description": "Delete category by id",
+        "parameters": [
+          {
+            "name": "item_category_id",
+            "in": "path",
+            "description": "The category ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/order": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "description": "Add order for user",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Add order for user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_number": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "first_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "contact_phone_number": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "contact_email_address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "apt_details": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "postal_code": {
+                  "type": "string",
+                  "example": "optional"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "delivery_type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "discount_code": {
+                  "type": "string",
+                  "example": "optional"
+                },
+                "order_total_price": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "shippingmethod_id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "user_id": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "Get all orders for the entire app or for a particular user.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/order/guest": {
+      "post": {
+        "tags": [
+          "Order"
+        ],
+        "description": "Add guest order",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Add guest order",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_number": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "first_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "contact_phone_number": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "contact_email_address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "postal_code": {
+                  "type": "string",
+                  "example": "optional"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "delivery_type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "discount_code": {
+                  "type": "string",
+                  "example": "optional"
+                },
+                "order_total_price": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "shippingmethod_id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "session_id": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/order/single": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "description": "Get One order by the generated order number",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "order_id",
+            "in": "query",
+            "description": "The DB order ID.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order_number",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/order/{order_id}": {
+      "put": {
+        "tags": [
+          "Order"
+        ],
+        "description": "Update order.",
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "order_id",
+            "in": "body",
+            "description": "Update order.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "last_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "contact_phone_number": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "contact_email_address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "city": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "postal_code": {
+                  "type": "string",
+                  "example": "optional"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "delivery_type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "order_total_price": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "order_status": {
+                  "type": "string",
+                  "example": "pending | processing | shipped | delivered"
+                },
+                "payment_status": {
+                  "type": "string",
+                  "example": "pending | received"
+                },
+                "shippingmethod_id": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "user_id": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Order"
+        ],
+        "description": "Delete order",
+        "parameters": [
+          {
+            "name": "order_id",
+            "in": "path",
+            "description": "The order ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/store": {
+      "post": {
+        "tags": [
+          "Store"
+        ],
+        "description": "Create store",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Store",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "store_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_city": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_state": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_postal_code": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_country": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_phone_number": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Store"
+        ],
+        "description": "Get all stores",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/store/{store_id}": {
+      "patch": {
+        "tags": [
+          "Store"
+        ],
+        "description": "Update store.",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Update store.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "store_name": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_city": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_state": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_postal_code": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_country": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "store_phone_number": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Store"
+        ],
+        "description": "Get one store by id",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "description": "The Store ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Store"
+        ],
+        "description": "Delete store by id",
+        "parameters": [
+          {
+            "name": "store_id",
+            "in": "path",
+            "description": "The Store ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/cart-item": {
+      "post": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Add item to cart",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Add item to cart",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "item_id": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "quantity": {
+                  "type": "string",
+                  "example": "1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Get all cart items for the entire app.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "User id.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order_status",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "order_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/cart-item/{cart_item_id}": {
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Update cart item.",
+        "parameters": [
+          {
+            "name": "cart_item_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Update cart item.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "type": "string",
+                  "example": "0"
+                },
+                "quantity": {
+                  "type": "string",
+                  "example": "0"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "description": "Delete cart item",
+        "parameters": [
+          {
+            "name": "cart_item_id",
+            "in": "path",
+            "description": "The Cart item ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/guest-cart-item": {
+      "post": {
+        "tags": [
+          "Guest Cart"
+        ],
+        "description": "Add item to Guest cart",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Add item to Guest cart",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "item_id": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "quantity": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "session_id": {
+                  "type": "string",
+                  "example": "uuid"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Guest Cart"
+        ],
+        "description": "Get all guest cart items for the entire app.",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "order_status",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "order_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/guest-cart-item/{guest_cart_item_id}": {
+      "put": {
+        "tags": [
+          "Guest Cart"
+        ],
+        "description": "Update guest cart item.",
+        "parameters": [
+          {
+            "name": "guest_cart_item_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Update cart item.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "string",
+                  "example": "1"
+                },
+                "order_id": {
+                  "type": "string",
+                  "example": "1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Guest Cart"
+        ],
+        "description": "Delete guest cart item",
+        "parameters": [
+          {
+            "name": "guest_cart_item_id",
+            "in": "path",
+            "description": "The guest Cart item ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/shipping-method": {
+      "post": {
+        "tags": [
+          "Shipping Method"
+        ],
+        "description": "Create shipping method",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Shipping method.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "note": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "method_information": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Shipping Method"
+        ],
+        "description": "Get Shipping Methods",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/shipping-method/{shipping_method_id}": {
+      "put": {
+        "tags": [
+          "Shipping Method"
+        ],
+        "description": "Update shipping method.",
+        "parameters": [
+          {
+            "name": "shipping_method_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Update shipping method.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "note": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "method_information": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Shipping Method"
+        ],
+        "description": "Delete shipping method",
+        "parameters": [
+          {
+            "name": "shipping_method_id",
+            "in": "path",
+            "description": "The Shipping method ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    }
+  }
+}
