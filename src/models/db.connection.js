@@ -31,7 +31,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 });
 
 sequelize
-  .sync({ alter: true }) // or { force: true } for dev
+  .sync({ alter: true })
   .then(() => console.log("✅ Database synchronized"))
   .catch((err) => console.error("❌ Sync failed:", err));
 
